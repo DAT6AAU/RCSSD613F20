@@ -1,17 +1,12 @@
 import listener
+import sender
 import socket
 
 
 def connect():
     # Split into function and other script - the sender
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    send_msg('(init Kuntz (version 7))', sock)
-    send_msg('(move -15 0)', sock)
     return sock
-
-
-def send_msg(msg, sock):
-    sock.sendto(msg.encode(), 0, ('127.0.0.1', 6000))
 
 
 def recv_msg(sock):
@@ -21,6 +16,7 @@ def recv_msg(sock):
 
 def main():
     sock = connect()
+    sender.send_init(sock, "Kuntz")
     while True:
         data = recv_msg(sock)
         listener.parseSrvMsg(data.decode())
