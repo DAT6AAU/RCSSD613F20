@@ -1,5 +1,3 @@
-import communicator
-
 uniformNumber = -1
 sideOfField = 'N'
 currentPlayMode = 'NULL'
@@ -23,9 +21,6 @@ def parseSrvMsg(msg):
         print("Receive unknown msg from server:")
         print(msg)
         print(RuntimeError())
-
-
-# debug_printVariables()
 
 
 def parse_init(msg):
@@ -67,8 +62,3 @@ def debug_print_variables():
     print("Uniform number: " + str(uniformNumber))
     print("Side of field: " + sideOfField)
     print("Current playmode: " + currentPlayMode)
-
-
-while True:
-    data = communicator.recvMsg()
-    parseSrvMsg(data.decode())
