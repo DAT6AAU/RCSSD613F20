@@ -2,6 +2,11 @@ uniformNumber = -1
 sideOfField = 'N'
 currentPlayMode = 'NULL'
 
+# Score
+game_time = -1
+score_our = -1
+score_their = -1
+
 
 def parseSrvMsg(msg):
     # trim parentheses
@@ -57,8 +62,23 @@ def parse_server_param(msg):
     print("Not yet implemented: server_param")
 
 
+def parse_score(msg):
+    global game_time
+    global score_our
+    global score_their
+
+    print("Parsing score msg")
+    msg_components = msg.split()
+    game_time = msg_components[1]
+    score_our = msg_components[2]
+    score_their = msg_components[3]
+
+
 def debug_print_variables():
     print("Current variable status:")
     print("Uniform number: " + str(uniformNumber))
     print("Side of field: " + sideOfField)
     print("Current playmode: " + currentPlayMode)
+    print("Game time: " + str(game_time))
+    print("Our score: " + str(score_our))
+    print("Their score: " + str(score_their))
