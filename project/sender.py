@@ -2,7 +2,7 @@ import socket
 
 
 def send_msg(sock, msg):
-    sock.sendto(surround_parentheses(msg.encode()), 0, ('127.0.0.1', 6000))
+    sock.sendto(surround_parentheses(msg).encode(), 0, ('127.0.0.1', 6000))
 
 
 def surround_parentheses(string):
