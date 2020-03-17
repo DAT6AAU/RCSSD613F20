@@ -1,0 +1,6 @@
+project/venv/
+project/.idea/*
+project/__pycache__
+*.rcg
+*.rcl
+

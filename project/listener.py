@@ -1,12 +1,8 @@
-import socket
+import communicator
 
 uniformNumber = -1
 sideOfField = 'N'
 currentPlayMode = 'NULL'
-
-
-def sendMsg(msg, sock):
-    sock.sendto(msg.encode(), 0, ('127.0.0.1', 6000))
 
 
 def parseSrvMsg(msg):
@@ -73,10 +69,6 @@ def debug_print_variables():
     print("Current playmode: " + currentPlayMode)
 
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sendMsg('(init Kuntz (version 7))', sock)
-sendMsg('(move -15 0)', sock)
-
 while True:
-    data, addr = sock.recvfrom(1024)
+    data = communicator.recvMsg()
     parseSrvMsg(data.decode())
