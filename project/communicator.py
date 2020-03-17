@@ -16,7 +16,7 @@ def recv_msg(sock):
 
 def main():
     sock = connect()
-    sender.send_init(sock, "Kuntz")
+    sender.send_init(sock, "Kuntz", False)
     while True:
         data = recv_msg(sock)
         listener.parseSrvMsg(data.decode())

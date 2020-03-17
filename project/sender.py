@@ -9,8 +9,11 @@ def surround_parentheses(string):
     return "(" + string + ")"
 
 
-def send_init(sock, team_name):
-    send_msg(sock, "init " + team_name + " (version 7)")
+def send_init(sock, team_name, isGolie):
+    msg = "init " + team_name + " (version 7)"
+    if isGolie:
+        msg + " (goalie)"
+    send_msg(sock, msg)
 
 
 def send_move(sock, x, y):
