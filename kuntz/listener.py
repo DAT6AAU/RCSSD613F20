@@ -28,7 +28,7 @@ def parseSrvMsg(msg):
 		print msg
 		print RuntimeError()
 
-	debug_printVariables()
+	# debug_printVariables()
 
 def parse_init(msg):
 	global sideOfField
@@ -54,6 +54,11 @@ def parse_error(msg):
 	print "Error msg received from server!"
 	print "msg: " + msg
 	raise RuntimeError()
+
+def parse_server_param(msg):
+	print "Not yet implemented: server_param"
+
+
 
 def debug_printVariables():
 	print "Current variable status:"

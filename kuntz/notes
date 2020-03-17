@@ -1,0 +1,15 @@
+- Init/joining a playing
+Example: (init l 4 before_kick_off)
+syntax: (init Side UniformNumber PlayMode)
+-- if it fails: (errornomoreteamorplayerorgoalie)
+
+Side: "l" or "r"
+
+
+(sense_body 0 (view_mode high normal) (stamina 8000 1) (speed 0) (kick 0) (dash 0) (turn 0) (say 0))
+(sense_body 0 (view_mode high normal) (stamina 8000 1) (speed 0) (kick 0) (dash 0) (turn 0) (say 0))
+(see 0 ((flag c) 15 0 0 0) ((flag r t) 75.9 -26) ((flag r b) 75.9 26) ((flag g r b) 68 5) ((goal r) 67.4 0) ((flag g r t) 68 -5)
+
+(see
+(hear
+(sense_body
