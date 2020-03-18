@@ -25,5 +25,9 @@ def send_score_request(sock):
     send_msg(sock, "score")
 
 
+def send_reconnect_request(sock, team_name, player_uni_number):
+    send_msg(sock, "reconnect " + team_name + " " + str(player_uni_number))
+
+
 def send_move(sock, x, y):
     send_msg(sock, "move " + x + " " + y)

@@ -34,6 +34,8 @@ def parseSrvMsg(msg):
         parse_hear(msg)
     elif msg.startswith('score'):
         parse_score(msg)
+    elif msg.startswith('reconnect'):
+        parse_reconnect(msg)
     else:
         print("Receive unknown msg from server:")
         print(msg)
@@ -83,6 +85,20 @@ def parse_hear(msg):
     print("Not yet implemented")
 
 
+# TODO test
+def parse_reconnect(msg):
+    global sideOfField
+    global currentPlayMode
+
+    print("Parsing reconnect msg")
+    msg_components = msg.split()
+    sideOfField = msg_components[1]
+    currentPlayMode = msg_components[2]
+
+
+# error illegal_command_form, illegal syntax on msg send to server
+# error no_more_player_or_goalie_or_illegal_client_version, joining full team
+# error no_more_team_or_player, reconnect response, not yet seen
 def parse_error(msg):
     print("Error msg received from server!")
     print("msg: " + msg)
