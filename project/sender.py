@@ -31,3 +31,44 @@ def send_reconnect_request(sock, team_name, player_uni_number):
 
 def send_move(sock, x, y):
     send_msg(sock, "move " + x + " " + y)
+
+
+# TODO test
+def send_catch(sock, direction):
+    if is_goalie:
+        send_msg(sock, "catch " + str(direction))
+
+
+# TODO test
+def send_change_view(sock, width, quality):
+    send_msg(sock, "change_view " + width + " " + quality)
+
+
+# TODO test
+def send_dash(sock, power):
+    send_msg(sock, "dash " + power)
+
+
+# TODO test
+def send_kick(sock, power, direction):
+    send_msg(sock, "kick " + power + " " + direction)
+
+
+# TODO test
+def send_say(sock, msg):
+    send_msg(sock, "say " + msg)
+
+
+# TODO test
+def send_sense_body(sock):
+    send_msg(sock, "sense_body")
+
+
+# TODO test
+def send_turn(sock, moment):
+    send_msg(sock, "turn " + str(moment))
+
+
+# TODO test
+def send_turn_neck(sock, angle):
+    send_msg(sock, "turn_neck " + angle)
