@@ -8,6 +8,8 @@ score_our = -1
 score_their = -1
 
 
+
+
 def parseSrvMsg(msg):
     # trim parentheses
     msg = msg[1:len(msg) - 2]
@@ -22,6 +24,8 @@ def parseSrvMsg(msg):
         parse_player_type(msg)
     elif msg.startswith('init'):
         parse_init(msg)
+    elif msg.startswith('change_player_type'):
+        parse_change_player_type(msg)
     elif msg.startswith('sense_body'):
         parse_sense_body(msg)
     elif msg.startswith('see'):
@@ -59,6 +63,11 @@ def parse_param_player(msg):
 
 
 def parse_player_type(msg):
+    print("Not yet implemented")
+
+
+# Syntax:
+def parse_change_player_type(msg):
     print("Not yet implemented")
 
 
