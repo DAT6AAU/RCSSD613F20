@@ -21,7 +21,7 @@ def send_init(sock, team_name, _is_goalie):
     send_msg(sock, msg)
 
 
-def send_score(sock):
+def send_score_request(sock):
     send_msg(sock, "score")
 
 

@@ -15,15 +15,16 @@ def recv_msg(sock):
 
 
 def debug_send_msgs(sock):
-    sender.send_score(sock)
+    sender.send_score_request(sock)
 
 
 def main():
     sock = connect()
     sender.send_init(sock, "Kuntz", False)
-    debug_send_msgs(sock)
+
     while True:
         data = recv_msg(sock)
+        debug_send_msgs(sock)
         listener.parseSrvMsg(data.decode())
 
 
