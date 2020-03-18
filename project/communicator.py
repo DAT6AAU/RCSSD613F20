@@ -24,7 +24,7 @@ def main():
 
     while True:
         data = recv_msg(sock)
-        debug_send_msgs(sock)
+        # debug_send_msgs(sock)
         listener.parseSrvMsg(data.decode())
 
 

@@ -22,10 +22,14 @@ def parseSrvMsg(msg):
         parse_see(msg)
     elif msg.startswith('hear'):
         parse_hear(msg)
+    elif msg.startswith('score'):
+        parse_score(msg)
     else:
         print("Receive unknown msg from server:")
         print(msg)
         print(RuntimeError())
+
+    debug_print_variables()
 
 
 def parse_init(msg):
