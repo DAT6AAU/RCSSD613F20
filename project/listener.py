@@ -14,6 +14,12 @@ def parseSrvMsg(msg):
 
     if msg.startswith('error'):
         parse_error(msg)
+    elif msg.startswith('server_param'):
+        parse_param_server(msg)
+    elif msg.startswith('player_param'):
+        parse_param_player(msg)
+    elif msg.startswith('player_type'):
+        parse_player_type(msg)
     elif msg.startswith('init'):
         parse_init(msg)
     elif msg.startswith('sense_body'):
@@ -29,7 +35,7 @@ def parseSrvMsg(msg):
         print(msg)
         print(RuntimeError())
 
-    debug_print_variables()
+    # debug_print_variables()
 
 
 def parse_init(msg):
@@ -42,6 +48,18 @@ def parse_init(msg):
     sideOfField = msgComponents[1]
     uniformNumber = msgComponents[2]
     currentPlayMode = msgComponents[3]
+
+
+def parse_param_server(msg):
+    print("Not yet implemented")
+
+
+def parse_param_player(msg):
+    print("Not yet implemented")
+
+
+def parse_player_type(msg):
+    print("Not yet implemented")
 
 
 def parse_sense_body(msg):
