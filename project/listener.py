@@ -8,8 +8,6 @@ score_our = -1
 score_their = -1
 
 
-
-
 def parseSrvMsg(msg):
     # trim parentheses
     msg = msg[1:len(msg) - 2]
@@ -57,32 +55,32 @@ def parse_init(msg):
 
 
 def parse_param_server(msg):
-    print("Not yet implemented")
+    print("Not yet implemented: server_param")
 
 
 def parse_param_player(msg):
-    print("Not yet implemented")
+    print("Not yet implemented: param_player")
 
 
 def parse_player_type(msg):
-    print("Not yet implemented")
+    print("Not yet implemented: player_type")
 
 
 # Syntax:
 def parse_change_player_type(msg):
-    print("Not yet implemented")
+    print("Not yet implemented: change_player_type")
 
 
 def parse_sense_body(msg):
-    print("Not yet implemented")
+    print("Not yet implemented: sense_body")
 
 
 def parse_see(msg):
-    print("Not yet implemented")
+    print("Not yet implemented: see")
 
 
 def parse_hear(msg):
-    print("Not yet implemented")
+    print("Not yet implemented: hear")
 
 
 # TODO test
@@ -103,10 +101,6 @@ def parse_error(msg):
     print("Error msg received from server!")
     print("msg: " + msg)
     raise RuntimeError()
-
-
-def parse_server_param(msg):
-    print("Not yet implemented: server_param")
 
 
 def parse_score(msg):
