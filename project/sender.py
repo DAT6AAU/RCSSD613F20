@@ -10,8 +10,9 @@ def set_socket(sock):
     udp_socket = sock
 
 
-def send_msg(sock, msg):
-    sock.sendto(surround_parentheses(msg).encode(), 0, ('127.0.0.1', 6000))
+def send_msg(msg):
+    global udp_socket
+    udp_socket.sendto(surround_parentheses(msg).encode(), 0, ('127.0.0.1', 6000))
 
 
 def surround_parentheses(string):
@@ -20,62 +21,61 @@ def surround_parentheses(string):
 
 def send_init(team_name, _is_goalie):
     global is_goalie
-    global udp_socket
     is_goalie = _is_goalie
     msg = "init " + team_name + " (version 7)"
     if _is_goalie:
         msg + " (goalie)"
-    send_msg(udp_socket, msg)
+    send_msg(msg)
 
 
-def send_score_request(sock):
-    send_msg(sock, "score")
+def send_score_request():
+    send_msg("score")
 
 
-def send_reconnect_request(sock, team_name, player_uni_number):
-    send_msg(sock, "reconnect " + team_name + " " + str(player_uni_number))
+def send_reconnect_request(team_name, player_uni_number):
+    send_msg("reconnect " + team_name + " " + str(player_uni_number))
 
 
-def send_move(sock, x, y):
-    send_msg(sock, "move " + x + " " + y)
+def send_move(x, y):
+    send_msg("move " + x + " " + y)
 
 
 # TODO test
-def send_catch(sock, direction):
+def send_catch(direction):
     if is_goalie:
-        send_msg(sock, "catch " + str(direction))
+        send_msg("catch " + str(direction))
 
 
 # TODO test
-def send_change_view(sock, width, quality):
-    send_msg(sock, "change_view " + width + " " + quality)
+def send_change_view(width, quality):
+    send_msg("change_view " + width + " " + quality)
 
 
 # TODO test
-def send_dash(sock, power):
-    send_msg(sock, "dash " + power)
+def send_dash(power):
+    send_msg("dash " + power)
 
 
 # TODO test
-def send_kick(sock, power, direction):
-    send_msg(sock, "kick " + power + " " + direction)
+def send_kick(power, direction):
+    send_msg("kick " + power + " " + direction)
 
 
 # TODO test
-def send_say(sock, msg):
-    send_msg(sock, "say " + msg)
+def send_say(msg):
+    send_msg("say " + msg)
 
 
 # TODO test
-def send_sense_body(sock):
-    send_msg(sock, "sense_body")
+def send_sense_body():
+    send_msg("sense_body")
 
 
 # TODO test
-def send_turn(sock, moment):
-    send_msg(sock, "turn " + str(moment))
+def send_turn(moment):
+    send_msg("turn " + str(moment))
 
 
 # TODO test
-def send_turn_neck(sock, angle):
-    send_msg(sock, "turn_neck " + angle)
+def send_turn_neck(angle):
+    send_msg("turn_neck " + angle)

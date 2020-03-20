@@ -15,10 +15,10 @@ def recv_msg(sock):
     return data
 
 
-def debug_send_msgs(sock):
-    #sender.send_score_request(sock)
-    #sender.send_msg(sock, "disconnect")
-    #sender.send_reconnect_request(sock, "Kuntz", 2)
+def debug_send_msgs():
+    #sender.send_score_request()
+    #sender.send_msg("disconnect")
+    #sender.send_reconnect_request("Kuntz", 2)
 
     pass
 
@@ -29,7 +29,7 @@ def main():
 
     while True:
         data = recv_msg(sock)
-        debug_send_msgs(sock)
+        debug_send_msgs()
         listener.parseSrvMsg(data.decode())
 
 
