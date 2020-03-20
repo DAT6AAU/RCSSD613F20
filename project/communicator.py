@@ -6,6 +6,7 @@ import socket
 def connect():
     # Split into function and other script - the sender
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sender.set_socket(sock)
     return sock
 
 
@@ -24,7 +25,7 @@ def debug_send_msgs(sock):
 
 def main():
     sock = connect()
-    sender.send_init(sock, "Kuntz", False)
+    sender.send_init("Kuntz", False)
 
     while True:
         data = recv_msg(sock)

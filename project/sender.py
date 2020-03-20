@@ -2,6 +2,12 @@ import socket
 
 # TODO This should be in player.py
 is_goalie = False
+udp_socket = socket
+
+
+def set_socket(sock):
+    global udp_socket
+    udp_socket = sock
 
 
 def send_msg(sock, msg):
@@ -12,13 +18,14 @@ def surround_parentheses(string):
     return "(" + string + ")"
 
 
-def send_init(sock, team_name, _is_goalie):
+def send_init(team_name, _is_goalie):
     global is_goalie
+    global udp_socket
     is_goalie = _is_goalie
     msg = "init " + team_name + " (version 7)"
     if _is_goalie:
         msg + " (goalie)"
-    send_msg(sock, msg)
+    send_msg(udp_socket, msg)
 
 
 def send_score_request(sock):
