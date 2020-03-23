@@ -106,7 +106,7 @@ def parse_sense_body(msg):
             pass
         elif element_array[0] == "(head_angle":
             body_data.head_angle = element_array[1]
-        elif element_array[0] == "kick":
+        elif element_array[0] == "(kick":
             body_data.count_kick = element_array[1]
         elif element_array[0] == "(dash":
             body_data.count_dash = element_array[1]
@@ -114,6 +114,12 @@ def parse_sense_body(msg):
             body_data.count_turn = element_array[1]
         elif element_array[0] == "(say":
             body_data.count_say = element_array[1]
+        elif element_array[0] == "(turn_neck":
+            body_data.count_turn_neck = element_array[1]
+        elif element_array[0] == "(catch":
+            body_data.count_catch = element_array[1]
+        elif element_array[0] == "(move":
+            body_data.count_move = element_array[1]
         else:
             print("parsing of sense_body failed. Could not find parsing for element: " + element)
 
