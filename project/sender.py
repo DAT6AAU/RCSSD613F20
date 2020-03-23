@@ -28,6 +28,22 @@ def send_init(team_name, _is_goalie):
     send_msg(msg)
 
 
+def send_commands_for_next_cycle(dict_of_commands):
+    msg = ""
+    next_command = ""
+
+    for command in dict_of_commands:
+        next_command += command[0]
+        for arg in command[1]:
+            next_command += " " + arg
+        next_command = surround_parentheses(next_command)
+        msg += next_command
+        next_command = ""
+    send_msg(msg)
+
+# ***
+
+
 def send_score_request():
     send_msg("score")
 

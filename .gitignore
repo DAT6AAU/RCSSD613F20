@@ -4,3 +4,9 @@ project/__pycache__
 *.rcg
 *.rcl
 
+.idea/vcs.xml
+.idea/dictionaries/ignor.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/RCSSD613F20.iml
