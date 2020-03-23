@@ -1,6 +1,7 @@
 project/venv/
 project/.idea/*
-project/__pycache__
+project/__pycache__/*
+project/data/__pycache__/*
 *.rcg
 *.rcl
 
