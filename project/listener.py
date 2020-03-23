@@ -62,7 +62,14 @@ def parse_init(msg):
 
 
 def remove_surrounding_parenthesis(string):
-    return string[1:len(string)-2]
+    print("first: " + string[0] + " last: " + string[len(string)-1])
+    if string[0] != "(" or string[len(string)-1] != ")":
+        print("remove_surrounding_parenthesis. String is not surrounded by parenthesis:")
+        print(string)
+        print(RuntimeError())
+
+
+    return string[1:len(string)-1]
 
 
 def parse_param_server(msg):
@@ -89,7 +96,6 @@ def parse_sense_body(msg):
     split_space = msg.split(" ")
     body_data.time = split_space[1]
 
-    msg_without_parenthesis = remove_surrounding_parenthesis(msg)
     split_parenthesis = re.findall('\[[^\]]*\]|\([^\)]*\)|\"[^\"]*\"|\S+', msg)
 
     # remove msg keyword and time
@@ -132,42 +138,72 @@ def parse_sense_body(msg):
 def parse_see(msg):
     global see_data
 
+    print("Passing see: " + msg)
+
     space_splitted = msg.split(" ")
     see_data.time = space_splitted[1]
 
-    objects = split_parenthesis_into_array(remove_surrounding_parenthesis(msg))
-    see_data.see_objects_array = objects
+    first_parenthesis_index = 0
+    for c in msg:
+        first_parenthesis_index += 1
+        if c == "(":
+            break
 
-    see_data = parse_see_identifiers(objects[0], see_data)
-    
-    print(see_data.obj_type)  # TODO Debugging
-    print(see_data.location_identifiers)  # TODO Debugging
-    print(RuntimeError())  # TODO Debugging
+    msg_removed_start = msg[first_parenthesis_index-1:]
+    #print("Msg with start removed: " + msg_removed_start)
+
+    objects = split_parenthesis_into_array(msg_removed_start)
+    for obj in objects:
+        see_object = see.SeeObject()
+        # todo get first parenthesis: x
+        split_parenthesis = re.findall('\[[^\]]*\]|\([^\)]*\)|\"[^\"]*\"|\S+', obj)
+        print("split parenthesis: ")
+        print(split_parenthesis)
+        # todo parse this: parse_see_identifiers(x, see_object)
+        parse_see_identifiers(remove_surrounding_parenthesis(split_parenthesis[0]), see_object)
+
+        # todo get distance numbers: y
+        for elem in split_parenthesis[1:]: # TODO Currently a bug: the last element contains a ")"
+            see_object.last_part_numbers_array.append(elem)
+        # todo save: see_object.last_part_string = y
+        see_data.see_objects_array.append(see_object)
+
+    print("OBJECTS: ")
+    print(see_data.see_objects_array)
 
 
 # help function for parse_see. Should receive a string containing chars separated by spaces.
-def parse_see_identifiers(iden_string, see_data_obj):
+# Sets type and location identifiers in given see_obj
+def parse_see_identifiers(iden_string, see_object):
     identifiers = iden_string.split(" ")
 
+    #print(iden_string)
+    #print("identiifer array: ")
+    #print(identifiers)
+    #see_object = see.SeeObject
+
     if identifiers[0] == "f":
-        see_data_obj.obj_type = see.SeeObjectType.FLAG
+        see_object.obj_type = see.SeeObjectType.FLAG
     elif identifiers[0] == "g":
-        see_data_obj.obj_type = see.SeeObjectType.GOAL
+        see_object.obj_type = see.SeeObjectType.GOAL
     elif identifiers[0] == "p":
-        see_data_obj.obj_type = see.SeeObjectType.PLAYER
+        see_object.obj_type = see.SeeObjectType.PLAYER
     else:
         print("error parsing see identifiers. Did not recognize: " + identifiers[0])
         print(RuntimeError())
 
-    if identifiers.len > 1:
-        for c in identifiers:
-            see_data_obj.location_identifiers.append(c)
+    if len(identifiers) > 1:
+        for c in identifiers[1:]:
+            see_object.location_identifiers.append(c)
 
-    return see_data_obj
+    # print(see_object.obj_type)  # TODO Debugging
+    # print(see_object.location_identifiers)  # TODO Debugging
+    # print(RuntimeError())  # TODO Debugging
 
 
 # Returns array where each element is a parenthesis pair from the string
 def split_parenthesis_into_array(string):
+    print("input string: " + string)
     result_array = []
 
     in_parenthesis_block = False
@@ -178,12 +214,14 @@ def split_parenthesis_into_array(string):
         if not in_parenthesis_block:
             if c == "(":
                 in_parenthesis_block = True
+                content += "("
         else:
             content += c
             if c == "(":
                 count_extra_start_parenthesis += 1
             elif c == ")":
                 if count_extra_start_parenthesis == 0:
+                    content += ")"
                     result_array.append(remove_surrounding_parenthesis(content))
                     in_parenthesis_block = False
                     content = ""

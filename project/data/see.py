@@ -38,4 +38,4 @@ class SeeObjectType(Enum):
 class SeeObject:
     obj_type = SeeObjectType
     location_identifiers = []  # b | r | l | c
-    last_part_string = "" # todo temp - to be handled
+    last_part_numbers_array = []  # todo temp - to be handled
