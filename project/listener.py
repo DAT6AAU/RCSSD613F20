@@ -95,7 +95,7 @@ def parse_sense_body(msg):
 
         element_array = element.split(" ")
 
-        if element_array[0] == "(view-mode":
+        if element_array[0] == "(view_mode":
             body_data.view_mode_vertical = element_array[1]
             body_data.view_mode_horizontal = element_array[2]
         elif element_array[0] == "(stamina":
@@ -104,6 +104,8 @@ def parse_sense_body(msg):
         elif element_array[0] == "(speed":
             # TODO should be two parameters? But is only one?
             pass
+        elif element_array[0] == "(head_angle":
+            body_data.head_angle = element_array[1]
         elif element_array[0] == "kick":
             body_data.count_kick = element_array[1]
         elif element_array[0] == "(dash":
@@ -113,7 +115,7 @@ def parse_sense_body(msg):
         elif element_array[0] == "(say":
             body_data.count_say = element_array[1]
         else:
-            print("parsing of sense_body failed. Could not find parsing for element: " + element_array[0])
+            print("parsing of sense_body failed. Could not find parsing for element: " + element)
 
 def parse_see(msg):
     print("Not yet implemented: see")
