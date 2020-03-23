@@ -138,6 +138,33 @@ def parse_see(msg):
     objects = split_parenthesis_into_array(remove_surrounding_parenthesis(msg))
     see_data.see_objects_array = objects
 
+    see_data = parse_see_identifiers(objects[0], see_data)
+    
+    print(see_data.obj_type)  # TODO Debugging
+    print(see_data.location_identifiers)  # TODO Debugging
+    print(RuntimeError())  # TODO Debugging
+
+
+# help function for parse_see. Should receive a string containing chars separated by spaces.
+def parse_see_identifiers(iden_string, see_data_obj):
+    identifiers = iden_string.split(" ")
+
+    if identifiers[0] == "f":
+        see_data_obj.obj_type = see.SeeObjectType.FLAG
+    elif identifiers[0] == "g":
+        see_data_obj.obj_type = see.SeeObjectType.GOAL
+    elif identifiers[0] == "p":
+        see_data_obj.obj_type = see.SeeObjectType.PLAYER
+    else:
+        print("error parsing see identifiers. Did not recognize: " + identifiers[0])
+        print(RuntimeError())
+
+    if identifiers.len > 1:
+        for c in identifiers:
+            see_data_obj.location_identifiers.append(c)
+
+    return see_data_obj
+
 
 # Returns array where each element is a parenthesis pair from the string
 def split_parenthesis_into_array(string):
