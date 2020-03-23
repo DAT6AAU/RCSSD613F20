@@ -10,6 +10,8 @@ game_time = -1
 score_our = -1
 score_their = -1
 
+body_data = sense_body.SenseBodyData()
+
 
 def parseSrvMsg(msg):
     # trim parentheses
@@ -78,8 +80,9 @@ def parse_change_player_type(msg):
     print("Not yet implemented: change_player_type")
 
 
+# TODO Atm. we only overwrite values which we have received. So old values are maintained.
 def parse_sense_body(msg):
-    body_data = sense_body.SenseBodyData()
+    global body_data
 
     split_space = msg.split(" ")
     body_data.time = split_space[1]
