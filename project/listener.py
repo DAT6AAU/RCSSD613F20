@@ -128,14 +128,13 @@ def parse_sense_body(msg):
         else:
             print("parsing of sense_body failed. Could not find parsing for element: " + element)
 
-def parse_see(msg):
 
+def parse_see(msg):
     global see_data
 
     space_splitted = msg.split(" ")
     see_data.time = space_splitted[1]
 
-    # TODO array of objects
     objects = split_parenthesis_into_array(remove_surrounding_parenthesis(msg))
     see_data.see_objects_array = objects
 
@@ -158,14 +157,14 @@ def split_parenthesis_into_array(string):
                 count_extra_start_parenthesis += 1
             elif c == ")":
                 if count_extra_start_parenthesis == 0:
-                    result_array.append(content)
+                    result_array.append(remove_surrounding_parenthesis(content))
                     in_parenthesis_block = False
                     content = ""
                 else:
                     count_extra_start_parenthesis -= 1
 
-    print(result_array)
     return result_array
+
 
 def parse_hear(msg):
     print("Not yet implemented: hear")
