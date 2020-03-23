@@ -1,4 +1,5 @@
 from data import sense_body
+from data import see
 import re
 
 uniformNumber = -1
@@ -11,6 +12,7 @@ score_our = -1
 score_their = -1
 
 body_data = sense_body.SenseBodyData()
+see_data = see.See()
 
 
 def parseSrvMsg(msg):
@@ -127,8 +129,43 @@ def parse_sense_body(msg):
             print("parsing of sense_body failed. Could not find parsing for element: " + element)
 
 def parse_see(msg):
-    print("Not yet implemented: see")
 
+    global see_data
+
+    space_splitted = msg.split(" ")
+    see_data.time = space_splitted[1]
+
+    # TODO array of objects
+    objects = split_parenthesis_into_array(remove_surrounding_parenthesis(msg))
+    see_data.see_objects_array = objects
+
+
+# Returns array where each element is a parenthesis pair from the string
+def split_parenthesis_into_array(string):
+    result_array = []
+
+    in_parenthesis_block = False
+    count_extra_start_parenthesis = 0
+    content = ""
+
+    for c in string:
+        if not in_parenthesis_block:
+            if c == "(":
+                in_parenthesis_block = True
+        else:
+            content += c
+            if c == "(":
+                count_extra_start_parenthesis += 1
+            elif c == ")":
+                if count_extra_start_parenthesis == 0:
+                    result_array.append(content)
+                    in_parenthesis_block = False
+                    content = ""
+                else:
+                    count_extra_start_parenthesis -= 1
+
+    print(result_array)
+    return result_array
 
 def parse_hear(msg):
     print("Not yet implemented: hear")
