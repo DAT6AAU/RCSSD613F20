@@ -1,3 +1,6 @@
+from data import sense_body
+import re
+
 uniformNumber = -1
 sideOfField = 'N'
 currentPlayMode = 'NULL'
@@ -54,6 +57,10 @@ def parse_init(msg):
     currentPlayMode = msgComponents[3]
 
 
+def remove_surrounding_parenthesis(string):
+    return string[1:len(string)-2]
+
+
 def parse_param_server(msg):
     print("Not yet implemented: server_param")
 
@@ -72,8 +79,41 @@ def parse_change_player_type(msg):
 
 
 def parse_sense_body(msg):
-    print("Not yet implemented: sense_body")
+    body_data = sense_body.SenseBodyData()
 
+    split_space = msg.split(" ")
+    body_data.time = split_space[1]
+
+    msg_without_parenthesis = remove_surrounding_parenthesis(msg)
+    split_parenthesis = re.findall('\[[^\]]*\]|\([^\)]*\)|\"[^\"]*\"|\S+', msg)
+
+    # remove msg keyword and time
+    data_array = split_parenthesis[2:len(split_parenthesis)-1]
+
+    # check for keywords
+    for element in data_array:
+
+        element_array = element.split(" ")
+
+        if element_array[0] == "(view-mode":
+            body_data.view_mode_vertical = element_array[1]
+            body_data.view_mode_horizontal = element_array[2]
+        elif element_array[0] == "(stamina":
+            body_data.stamina_stamina = element_array[1]
+            body_data.stamina_effort = element_array[2]
+        elif element_array[0] == "(speed":
+            # TODO should be two parameters? But is only one?
+            pass
+        elif element_array[0] == "kick":
+            body_data.count_kick = element_array[1]
+        elif element_array[0] == "(dash":
+            body_data.count_dash = element_array[1]
+        elif element_array[0] == "(turn":
+            body_data.count_turn = element_array[1]
+        elif element_array[0] == "(say":
+            body_data.count_say = element_array[1]
+        else:
+            print("parsing of sense_body failed. Could not find parsing for element: " + element_array[0])
 
 def parse_see(msg):
     print("Not yet implemented: see")
