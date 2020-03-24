@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class See:
     time = 0  # simulation cycle of the soccerserver
     see_objects_array = []
@@ -12,6 +13,10 @@ class See:
     flag_pos_cb = [0, 0]
     flag_pos_lb = [0, 0]
     goal_pos_l = [0, 0]
+
+    def reset(self):
+        self.time = 0
+        self.see_objects_array = []
 
     # todo should not be here
     def get_player_pos(self, msg):

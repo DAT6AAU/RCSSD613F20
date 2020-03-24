@@ -140,6 +140,7 @@ def parse_sense_body(msg):
 
 def parse_see(msg):
     global see_data
+    see_data.reset()
 
     print("Passing see: " + msg)
 
