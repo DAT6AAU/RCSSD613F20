@@ -1,38 +1,86 @@
 from enum import Enum
+import math
 
 
 class See:
     time = 0  # simulation cycle of the soccerserver
     see_objects_array = []
+    hardcoded_flags = []
 
-    flag_pos_lt = [0, 0]
-    flag_pos_ct = [0, 0]
-    flag_pos_rt = [0, 0]
-    goal_pos_r = [0, 0]
-    flag_pos_rb = [0, 0]
-    flag_pos_cb = [0, 0]
-    flag_pos_lb = [0, 0]
-    goal_pos_l = [0, 0]
+    def __init__(self):
+        self.setup_hardcoded_flags()
+
+    def setup_hardcoded_flags(self):
+        self.hardcoded_flags.append(HardcodedFlag(0, 0, ["l", "t"]))
+        self.hardcoded_flags.append(HardcodedFlag(0, 0, ["c", "t"]))
+        self.hardcoded_flags.append(HardcodedFlag(0, 0, ["r", "t"]))
+        self.hardcoded_flags.append(HardcodedFlag(0, 0, ["r"]))
+        self.hardcoded_flags.append(HardcodedFlag(0, 0, ["r", "b"]))
+        self.hardcoded_flags.append(HardcodedFlag(0, 0, ["c", "b"]))
+        self.hardcoded_flags.append(HardcodedFlag(0, 0, ["l", "b"]))
+        self.hardcoded_flags.append(HardcodedFlag(0, 0, ["l"]))
 
     def reset(self):
         self.time = 0
         self.see_objects_array = []
 
     # todo should not be here
-    def get_player_pos(self, msg):
-
+    def get_player_pos(self):
         # todo hardcode pos of 8 flags
         #done
 
-        # todo identify which of the hardcoded flags the player sees
+        # todo identify two hardcoded flags that the player can see
+        # TODO: Optimize: stop at two flags found
+        found_flags = []
+        for see_flag in self.see_objects_array:
+            for hardcoded_flag in self.hardcoded_flags:
+                # Does the types match?
+                if see_flag.obj_type is hardcoded_flag.flag_type:
+                    is_matching = True
+                    # Does their identifiers match?
+                    for i1, i2 in zip(see_flag.location_identifiers, hardcoded_flag.location_identifiers):
+                        if i1 is not i2:
+                            is_matching = False
+                    if is_matching:
+                        found_flags.append(see_flag)
+
 
         # todo use that data together with distance from player to those points to triangulate pos
 
         pass
 
+    # Returns the coordinates of the third point in a triangle.
+    # Params: x0, y0 = point A and r0 is its distance to the point C (unknown location)
+    # Params: x1, y1 = point B and r1 is its distance to the point C (unknown location)
+    # https://stackoverflow.com/questions/55816902/finding-the-intersection-of-two-circles
+    @staticmethod
+    def get_intercetions(x0, y0, r0, x1, y1, r1):
+        # circle 1: (x0, y0), radius r0
+        # circle 2: (x1, y1), radius r1
 
-    def get_object_type(self, see_object):
-        pass
+        d = math.sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2)
+
+        # non intersecting
+        if d > r0 + r1:
+            return None
+        # One circle within other
+        if d < abs(r0 - r1):
+            return None
+        # coincident circles
+        if d == 0 and r0 == r1:
+            return None
+        else:
+            a = (r0 ** 2 - r1 ** 2 + d ** 2) / (2 * d)
+            h = math.sqrt(r0 ** 2 - a ** 2)
+            x2 = x0 + a * (x1 - x0) / d
+            y2 = y0 + a * (y1 - y0) / d
+            x3 = x2 + h * (y1 - y0) / d
+            y3 = y2 - h * (x1 - x0) / d
+
+            x4 = x2 - h * (y1 - y0) / d
+            y4 = y2 + h * (x1 - x0) / d
+
+            return [x3, y3, x4, y4]
 
 
 class SeeObjectType(Enum):
@@ -40,7 +88,18 @@ class SeeObjectType(Enum):
     PLAYER = 2
     GOAL = 3
 
-class SeeObject:
+
+class SeeDataObject:
     obj_type = SeeObjectType
     location_identifiers = []  # b | r | l | c
     last_part_numbers_array = []  # todo temp - to be handled
+
+
+class HardcodedFlag:
+    flag_type = SeeObjectType
+    location_identifiers = []  # b | r | l | c
+    location = []
+
+    def __init__(self, x, y, identifiers):
+        self.location = [x, y]
+        self.location_identifiers = identifiers

@@ -158,7 +158,7 @@ def parse_see(msg):
 
     objects = split_parenthesis_into_array(msg_removed_start)
     for obj in objects:
-        see_object = see.SeeObject()
+        see_object = see.SeeDataObject()
         # todo get first parenthesis: x
         print("Before split: ")
         print(obj)
