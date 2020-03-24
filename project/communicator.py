@@ -29,8 +29,9 @@ def main():
 
     while True:
         data = recv_msg(sock)
+        string = data.decode()
         debug_send_msgs()
-        listener.parseSrvMsg(data.decode())
+        listener.parseSrvMsg(string[:len(string)-1])
 
 
 if __name__ == "__main__":

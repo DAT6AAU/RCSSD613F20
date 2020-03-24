@@ -16,8 +16,11 @@ see_data = see.See()
 
 
 def parseSrvMsg(msg):
+    #print("START: " + msg)
     # trim parentheses
-    msg = msg[1:len(msg) - 2]
+    #msg = msg[1:len(msg) - 2]
+    msg = remove_surrounding_parenthesis(msg)
+    #print("START2: " + msg)
 
     if msg.startswith('error'):
         parse_error(msg)
@@ -150,22 +153,29 @@ def parse_see(msg):
             break
 
     msg_removed_start = msg[first_parenthesis_index-1:]
-    #print("Msg with start removed: " + msg_removed_start)
+    print("Msg with start removed: " + msg_removed_start)
 
     objects = split_parenthesis_into_array(msg_removed_start)
     for obj in objects:
         see_object = see.SeeObject()
         # todo get first parenthesis: x
+        print("Before split: ")
+        print(obj)
         split_parenthesis = re.findall('\[[^\]]*\]|\([^\)]*\)|\"[^\"]*\"|\S+', obj)
         print("split parenthesis: ")
         print(split_parenthesis)
         # todo parse this: parse_see_identifiers(x, see_object)
+
         parse_see_identifiers(remove_surrounding_parenthesis(split_parenthesis[0]), see_object)
 
         # todo get distance numbers: y
-        for elem in split_parenthesis[1:]: # TODO Currently a bug: the last element contains a ")"
+        print("Split parent: ")
+        print(split_parenthesis)
+        for elem in split_parenthesis[1:]:
             see_object.last_part_numbers_array.append(elem)
-        # todo save: see_object.last_part_string = y
+            print("Element:")
+            print(elem)
+
         see_data.see_objects_array.append(see_object)
 
     print("OBJECTS: ")
@@ -201,7 +211,7 @@ def parse_see_identifiers(iden_string, see_object):
     # print(RuntimeError())  # TODO Debugging
 
 
-# Returns array where each element is a parenthesis pair from the string
+# Returns array where each element is the string split between each outer parentheses
 def split_parenthesis_into_array(string):
     print("input string: " + string)
     result_array = []
@@ -221,7 +231,6 @@ def split_parenthesis_into_array(string):
                 count_extra_start_parenthesis += 1
             elif c == ")":
                 if count_extra_start_parenthesis == 0:
-                    content += ")"
                     result_array.append(remove_surrounding_parenthesis(content))
                     in_parenthesis_block = False
                     content = ""
