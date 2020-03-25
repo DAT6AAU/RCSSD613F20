@@ -46,10 +46,48 @@ class See:
                     if is_matching:
                         found_flags.append(see_flag)
 
-
         # todo use that data together with distance from player to those points to triangulate pos
-
+        chosen_flags = self.pick_two_falgs(self, found_flags)
+        # TODO Get hardcoded pos of the two chosen flags
+        chosen_flag_one_pos = self.get_pos_of_flag_from_identifiers(chosen_flags[0])
+        chosen_flag_two_pos = self.get_pos_of_flag_from_identifiers(chosen_flags[1])
+        # TODO Get distance to the two chosen flags
+        positions = self.get_intercetions(chosen_flag_one_pos[0], chosen_flag_one_pos[1], 0,
+                                          chosen_flag_two_pos[0], chosen_flag_two_pos[1], 0)  # TODO pass the info
+        # TODO Pick the right coordinate
+        # TODO Return it
         pass
+
+    # Takes list of chars. Returns list with two ints.
+    def get_pos_of_flag_from_identifiers(self, identifiers):
+        for hardcoded_flag in self.hardcoded_flags:
+            if hardcoded_flag.location_identifiers.len != identifiers.len:
+                break
+            is_matching = True
+            # Does the identifiers match?
+            for iden_given, iden_hard in zip(identifiers, hardcoded_flag.location_identifiers):
+                if iden_given is not iden_hard:
+                    is_matching = False
+            if is_matching:
+                return hardcoded_flag.location
+
+        return NULL # TODO no matching flag found
+
+    # Takes a list of flags and returns two of them
+    # These should be picked with a specific policy
+    # TODO Improve to select closest flags?
+    def pick_two_falgs(self, flags):
+        chosen_flags = []
+        if flags.len > 2:
+            print("error choosing two flags. Given list only contains amount of flags: " + flags.len)
+            print(RuntimeError())
+
+        chosen_flags.append(flags[0])
+        chosen_flags.append(flags[1])
+
+        return chosen_flags
+
+
 
     # Returns the coordinates of the third point in a triangle.
     # Params: x0, y0 = point A and r0 is its distance to the point C (unknown location)
