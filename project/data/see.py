@@ -8,6 +8,8 @@ class See:
     hardcoded_flags = []
 
     def __init__(self):
+        self.time = 0
+        self.last_part_numbers_array = []
         self.setup_hardcoded_flags()
 
     def setup_hardcoded_flags(self):
@@ -93,6 +95,10 @@ class SeeDataObject:
     obj_type = SeeObjectType
     location_identifiers = []  # b | r | l | c
     last_part_numbers_array = []  # todo temp - to be handled
+
+    def __init__(self):
+        self.location_identifiers = []
+        self.last_part_numbers_array = []
 
 
 class HardcodedFlag:

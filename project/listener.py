@@ -65,7 +65,7 @@ def parse_init(msg):
 
 
 def remove_surrounding_parenthesis(string):
-    print("first: " + string[0] + " last: " + string[len(string)-1])
+    #print("first: " + string[0] + " last: " + string[len(string)-1])
     if string[0] != "(" or string[len(string)-1] != ")":
         print("remove_surrounding_parenthesis. String is not surrounded by parenthesis:")
         print(string)
@@ -142,7 +142,7 @@ def parse_see(msg):
     global see_data
     see_data.reset()
 
-    print("Passing see: " + msg)
+    # print("Passing see: " + msg)
 
     space_splitted = msg.split(" ")
     see_data.time = space_splitted[1]
@@ -154,33 +154,37 @@ def parse_see(msg):
             break
 
     msg_removed_start = msg[first_parenthesis_index-1:]
-    print("Msg with start removed: " + msg_removed_start)
+    # print("Msg with start removed: " + msg_removed_start)
 
     objects = split_parenthesis_into_array(msg_removed_start)
     for obj in objects:
         see_object = see.SeeDataObject()
         # todo get first parenthesis: x
-        print("Before split: ")
-        print(obj)
+        # print("Before split: ")
+        # print(obj)
         split_parenthesis = re.findall('\[[^\]]*\]|\([^\)]*\)|\"[^\"]*\"|\S+', obj)
-        print("split parenthesis: ")
-        print(split_parenthesis)
+        # print("split parenthesis: ")
+        # print(split_parenthesis)
         # todo parse this: parse_see_identifiers(x, see_object)
 
         parse_see_identifiers(remove_surrounding_parenthesis(split_parenthesis[0]), see_object)
 
         # todo get distance numbers: y
-        print("Split parent: ")
-        print(split_parenthesis)
+        # print("Split parent: ")
+        # print(split_parenthesis)
         for elem in split_parenthesis[1:]:
             see_object.last_part_numbers_array.append(elem)
-            print("Element:")
-            print(elem)
+            # print("Element:")
+            # print(elem)
 
+        print("See object: ")
+        print(see_object.last_part_numbers_array)
         see_data.see_objects_array.append(see_object)
 
-    print("OBJECTS: ")
-    print(see_data.see_objects_array)
+    # print("OBJECTS: ")
+    # print(see_data.see_objects_array)
+
+    see_data.get_player_pos()
 
 
 # help function for parse_see. Should receive a string containing chars separated by spaces.
@@ -214,7 +218,7 @@ def parse_see_identifiers(iden_string, see_object):
 
 # Returns array where each element is the string split between each outer parentheses
 def split_parenthesis_into_array(string):
-    print("input string: " + string)
+    #print("input string: " + string)
     result_array = []
 
     in_parenthesis_block = False
