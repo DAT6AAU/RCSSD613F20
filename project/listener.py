@@ -172,10 +172,28 @@ def parse_see(msg):
         # todo get distance numbers: y
         # print("Split parent: ")
         # print(split_parenthesis)
-        for elem in split_parenthesis[1:]:
-            see_object.last_part_numbers_array.append(elem)
-            # print("Element:")
-            # print(elem)
+        # TODO cleanup below
+        remaining_numbers = split_parenthesis[1:]
+        if len(remaining_numbers) == 1:
+            see_object.direction = remaining_numbers[0]
+        elif len(remaining_numbers) == 2:
+            see_object.direction = remaining_numbers[0]
+            see_object.direction = remaining_numbers[1]
+        elif len(remaining_numbers) == 4:
+            see_object.direction = remaining_numbers[0]
+            see_object.direction = remaining_numbers[1]
+            # TODO DistChange: [2]
+            # TODO Dirchange: [3]
+        elif len(remaining_numbers) == 6:
+            see_object.direction = remaining_numbers[0]
+            see_object.direction = remaining_numbers[1]
+            # TODO DistChange: [2]
+            # TODO Dirchange: [3]
+            # TODO BodyFacingDir: [4]
+            # TODO HeadFacingDir: [5]
+        else:
+            print("error parsing see. Should never happen! Syntax error is msg received from server.")
+            print(RuntimeError())
 
         print("See object: ")
         print(see_object.last_part_numbers_array)
@@ -192,9 +210,9 @@ def parse_see(msg):
 def parse_see_identifiers(iden_string, see_object):
     identifiers = iden_string.split(" ")
 
-    #print(iden_string)
-    #print("identiifer array: ")
-    #print(identifiers)
+    print(iden_string)
+    print("identiifer array: ")
+    print(identifiers)
     #see_object = see.SeeObject
 
     if identifiers[0] == "f":
@@ -203,6 +221,8 @@ def parse_see_identifiers(iden_string, see_object):
         see_object.obj_type = see.SeeObjectType.GOAL
     elif identifiers[0] == "p":
         see_object.obj_type = see.SeeObjectType.PLAYER
+    elif identifiers[0] == "F":
+        see_object.obj_type = see.SeeObjectType.UNKNOWN
     else:
         print("error parsing see identifiers. Did not recognize: " + identifiers[0])
         print(RuntimeError())

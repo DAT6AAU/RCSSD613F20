@@ -47,10 +47,17 @@ class See:
                         found_flags.append(see_flag)
 
         # todo use that data together with distance from player to those points to triangulate pos
-        chosen_flags = self.pick_two_falgs(self, found_flags)
+        if len(found_flags) == 0:
+            print("Tried finging player pos. But does not see any hardcoded flags.")
+            return
+        else:
+            chosen_flags = self.pick_two_falgs(found_flags)
         # TODO Get hardcoded pos of the two chosen flags
-        chosen_flag_one_pos = self.get_pos_of_flag_from_identifiers(chosen_flags[0])
-        chosen_flag_two_pos = self.get_pos_of_flag_from_identifiers(chosen_flags[1])
+        chosen_flag_one_pos = self.get_pos_of_flag_from_identifiers(chosen_flags[0].location_identifiers)
+        chosen_flag_two_pos = self.get_pos_of_flag_from_identifiers(chosen_flags[1].location_identifiers)
+        print("Chosen flag one pos: " + str(chosen_flag_one_pos))
+        print("Chosen flag two pos: " + str(chosen_flag_two_pos))
+        print(RuntimeError())
         # TODO Get distance to the two chosen flags
         positions = self.get_intercetions(chosen_flag_one_pos[0], chosen_flag_one_pos[1], 0,
                                           chosen_flag_two_pos[0], chosen_flag_two_pos[1], 0)  # TODO pass the info
@@ -60,8 +67,10 @@ class See:
 
     # Takes list of chars. Returns list with two ints.
     def get_pos_of_flag_from_identifiers(self, identifiers):
+        print("get_pos_of_flag_from_iden: received idenents: " + str(identifiers))
         for hardcoded_flag in self.hardcoded_flags:
-            if hardcoded_flag.location_identifiers.len != identifiers.len:
+            # print("HC.flag.iden: " + str(hardcoded_flag.location_identifiers) + " " + str(len(hardcoded_flag.location_identifiers)))
+            if len(hardcoded_flag.location_identifiers) != len(identifiers.location_identifiers):
                 break
             is_matching = True
             # Does the identifiers match?
@@ -71,16 +80,19 @@ class See:
             if is_matching:
                 return hardcoded_flag.location
 
-        return NULL # TODO no matching flag found
+        return None # TODO no matching flag found
 
     # Takes a list of flags and returns two of them
     # These should be picked with a specific policy
     # TODO Improve to select closest flags?
     def pick_two_falgs(self, flags):
         chosen_flags = []
-        if flags.len > 2:
-            print("error choosing two flags. Given list only contains amount of flags: " + flags.len)
+        if len(flags) < 2:
+            print("Error choosing two flags. Given list only contains amount of flags: " + str(len(flags)))
             print(RuntimeError())
+
+        print("Number of given flags: " + str(len(flags)))
+        print("Flags: " + str(flags))
 
         chosen_flags.append(flags[0])
         chosen_flags.append(flags[1])
@@ -127,16 +139,21 @@ class SeeObjectType(Enum):
     FLAG = 1
     PLAYER = 2
     GOAL = 3
+    UNKNOWN = 4  # Identifiers: F
 
 
 class SeeDataObject:
     obj_type = SeeObjectType
     location_identifiers = []  # b | r | l | c
+    direction = None
+    distance = None
     last_part_numbers_array = []  # todo temp - to be handled
 
     def __init__(self):
         self.location_identifiers = []
         self.last_part_numbers_array = []
+        self.direction = None
+        self.distance = None
 
 
 class HardcodedFlag:
